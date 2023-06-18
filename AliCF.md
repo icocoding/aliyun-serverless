@@ -113,7 +113,3 @@ Response:
 ```json
 {"success":true,"affectedDocs":1,"result":{"_id":1234567890,"name":"test"}}
 ```
-
-```
-npm run cf invoke nba-api '{"action":"getRankData","apikey":"s"}'
-```
