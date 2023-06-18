@@ -1,0 +1,11 @@
+{
+    "accessKeyId": "Your Aliyun AccessKeyId",
+    "accessKeySecret": "Your Aliyun AccessKeySecret",
+    "spaceId": "Your Aliyun Serverless SpaceId",
+    "triggers": {
+        "test-demo": {
+            "cron": "0 */20 7-16 * 4-6 *",
+            "payload": ""
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "aliserverless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cf": "run-func ./cloudfunction.js"
+  },
+  "author": "cocoding",
+  "license": "ISC",
+  "dependencies": {
+    "@alicloud/ecs20140526": "^3.0.6",
+    "@alicloud/mpserverless20190615": "^1.0.9",
+    "@alicloud/openapi-client": "^0.4.6",
+    "archiver": "^5.3.1",
+    "axios": "^1.4.0",
+    "run-func": "^3.0.0"
+  }
+}
