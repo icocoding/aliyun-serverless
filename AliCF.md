@@ -1,5 +1,6 @@
 # 云函数开发工具 alicf
-## 设置阿里云调用参数 `./cloudfunctions/config.json`
+## 设置阿里云调用参数 
+[./cloudfunctions/config.json](./cloudfunctions/config.json)
 ```json
 {
     "accessKeyId": "Your Aliyun AccessKeyId",
@@ -35,7 +36,8 @@ npm run cf invoke test-demo [参数, 默认为{}]
 > 给Serverless云函数添加触发器
 
 - 1. 参考: <https://help.aliyun.com/document_detail/435821.html?spm=a2c4g.435907.0.0.7a8a1fc7WTaC6O>
-- 2. 编辑触发器参数 `./cloudfunctions/config.json`
+- 2. 编辑触发器参数
+[./cloudfunctions/config.json](./cloudfunctions/config.json)
     ```json
     "triggers": {
             "test-demo": { // 函数名
