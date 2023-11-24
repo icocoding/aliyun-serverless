@@ -213,35 +213,24 @@ function createDefaultFiles(funcName) {
   fs.mkdirSync(funcDir)
   const indexJs = 
 `'use strict';
+// require
+const alicf = require('./alicf')
+
 /* ------------------ 自定义函数 ------------------ */
 // functionA
 
 /* ------------------ 自定义函数 ------------------ */
 // 主函数
 const main = async (args, context) => {
-    console.log(args)
-    const {db, file, cloudfunction, httpclient} = alicf.get()
-    return { code: 0, msg: 'success', data: args };
+  alicf.log("输入参数", args)
+  const {db, file, cloudfunction, httpclient} = alicf.get()
+  return { code: 0, msg: 'success', data: alicf.getContext().args };
 }
-const alicf = {}
 // 云函数入口函数
 module.exports = async (ctx) => {
-    console.log(ctx)
-    alicf.getContext = () => {
-        return ctx
-    }
-    alicf.get = () => {
-        return {
-          ...ctx.mpserverless,
-          cloudfunction: ctx.mpserverless.function,
-          httpclient: ctx.httpclient
-        }
-    }
-    let db = ctx.mpserverless.db;
-    let file = ctx.mpserverless.file;
-    // urllib ctx.httpclient.request
-    const args = ctx.args;
-    return await main(args, ctx)
+  alicf.bind(ctx)
+  const args = ctx.args;
+  return await main(args, ctx)
 }
 `
     fs.writeFileSync(path.resolve(funcDir, 'index.js'), indexJs)
@@ -254,7 +243,7 @@ module.exports = async (ctx) => {
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \\"Error: no test specified\\" && exit 1"
+    "debug": "node debug.js"
   },
   "author": "alicf@CoCoding",
   "license": "ISC"
@@ -262,6 +251,71 @@ module.exports = async (ctx) => {
 `
 fs.writeFileSync(path.resolve(funcDir, 'package.json'), packageJson)
 
+// 添加alicf.js
+const alicfJs = 
+`
+
+const __alicf = {}
+
+
+__alicf.bind = (ctx) => {
+    __alicf.ctx = ctx
+}
+__alicf.getContext = () => {
+    if(!__alicf.ctx) {
+        throw Error('no bind ctx')
+    }
+    return __alicf.ctx
+}
+/**
+ * 获取云操作
+ * @returns > { db, file, cloudfunction, httpclient }
+ */
+__alicf.get = () => {
+    // let db = ctx.mpserverless.db;
+    // let file = ctx.mpserverless.file;
+    const ctx = __alicf.getContext()
+    return {
+      ...ctx.mpserverless,
+      cloudfunction:ctx.mpserverless.function,
+      // urllib ctx.httpclient.request
+      httpclient: ctx.httpclient
+    }
+}
+
+__alicf.log = function() {
+    const {logger} = __alicf.getContext()
+    if (logger && logger.info) {
+        logger.info(...arguments)
+    } else {
+        console.log(...arguments)
+    }
+}
+
+module.exports = __alicf
+`
+fs.writeFileSync(path.resolve(funcDir, 'alicf.js'), alicfJs)
+
+
+// 添加debug.js
+const debugJs = 
+`
+const index = require('./index')
+const args = process.argv[2] || '{}'
+new Promise(async function(resolve, reject) {
+    const res = await index({
+        args: JSON.parse(args),
+        mpserverless: {
+            db: {},
+            file: {},
+            function: {}
+        }
+    }
+)
+console.log(res)
+})
+`
+fs.writeFileSync(path.resolve(funcDir, 'debug.js'), debugJs)
 }
 exports.create = async function (funcName, args) {
   console.log("create: " + funcName)
