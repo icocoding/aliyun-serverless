@@ -75,7 +75,7 @@ async function zipFunction(funcName) {
   const targerDir = path.resolve(cloudfunctionsDir, funcName)
   // append files from a sub-directory, putting its contents at the root of archive
   archive.directory(targerDir, false);
-  archive.finalize();
+  await archive.finalize();
   return Promise.resolve(path.resolve(tmpDir, zipFilePath))
 }
 
@@ -187,7 +187,7 @@ exports.invoke = async function (funcName, args = {}) {
   let params = createApiInfo("RunFunction");
   // runtime options spaceId
   let body = {
-    functionTarget: funcName, functionArgs: args
+    functionTarget: funcName, functionArgs: JSON.parse(args)
   }
   let runtime = new $Util.RuntimeOptions({
     readTimeout: 10*1000
