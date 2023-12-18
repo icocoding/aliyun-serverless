@@ -1,3 +1,4 @@
 node_modules/
 cloudfunctions/.deploy/
 package-lock.json
+.DS_Store
