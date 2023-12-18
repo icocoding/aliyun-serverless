@@ -345,7 +345,7 @@ exports.create = async function (funcName, args) {
   return res.body
 }
 exports.trigger = async function (funcName) {
-  console.log("create: " + funcName)
+  console.log("trigger: " + funcName)
 
   const trigger = cloudConfig.triggers[funcName]
   if (!trigger) {
