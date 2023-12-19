@@ -12,7 +12,9 @@ const { setTimeout } = require('timers/promises');
 const cwd = process.cwd()
 const cloudfunctionsDir = path.resolve(cwd, "cloudfunctions")
 const tmpDir = path.resolve(cloudfunctionsDir, ".deploy")
-const cloudConfig = {}
+const cloudConfig = {
+  version: '1.0.0'
+}
 
 function _init() {
   if (!fs.existsSync(tmpDir)) {
@@ -23,6 +25,7 @@ function _init() {
   })
   let json = JSON.parse(text)
   Object.assign(cloudConfig, json)
+  console.log(cloudConfig)
 }
 _init()
 const client = _createClient();
@@ -73,8 +76,13 @@ async function zipFunction(funcName) {
   // pipe archive data to the file
   archive.pipe(output);
   const targerDir = path.resolve(cloudfunctionsDir, funcName)
+  console.log('zip dir:' + targerDir)
+  archive.glob('**', {
+    cwd: targerDir,
+    ignore: ['.tmp', 'package-lock.json', 'package.json', 'debug.js']
+  })
   // append files from a sub-directory, putting its contents at the root of archive
-  archive.directory(targerDir, false);
+  // archive.directory(targerDir, false);
   await archive.finalize();
   return Promise.resolve(path.resolve(tmpDir, zipFilePath))
 }
