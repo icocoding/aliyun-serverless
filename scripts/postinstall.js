@@ -12,13 +12,15 @@ const configFilePath = path.resolve(cloudfunctionsDir, "config.json")
 
 if (!fs.existsSync(configFilePath)) {
   console.log("create config.json")
-  fs.writeFileSync(configFilePath, JSON.stringify({
+  fs.writeFileSync(configFilePath, 
+`{
     "accessKeyId": "Your Aliyun AccessKeyId",
     "accessKeySecret": "Your Aliyun AccessKeySecret",
     "spaceId": "Your Aliyun Serverless SpaceId",
     "triggers": {
     }
-}))
+}`
+)
 }
 
 
