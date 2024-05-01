@@ -5,5 +5,6 @@
 ## 安装
 
 ```shell
-npm install git://github.com/icocoding/aliyun-serverless.git#~1.0.0
+# npm install git://github.com/icocoding/aliyun-serverless.git#~1.0.0
+npm install github:icocoding/aliyun-serverless
 ```
