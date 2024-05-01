@@ -23,9 +23,10 @@ if (!fs.existsSync(configFilePath)) {
 )
 }
 
+const packageJsonPath = path.resolve(projectPath, 'package.json')
 
 // 读取 package.json 文件
-fs.readFile(path.resolve(projectPath, 'package.json'), 'utf8', (err, data) => {
+fs.readFile(packageJsonPath, 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading package.json:', err);
     return;
@@ -40,7 +41,7 @@ fs.readFile(path.resolve(projectPath, 'package.json'), 'utf8', (err, data) => {
     packageJson.scripts['cf'] = 'run-func ./node_modules/aliserverless/index.js';
 
     // 将修改后的 package.json 数据写回文件
-    fs.writeFile('package.json', JSON.stringify(packageJson, null, 2), 'utf8', (err) => {
+    fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf8', (err) => {
       if (err) {
         console.error('Error writing package.json:', err);
         return;
