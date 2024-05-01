@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path')
 
-const cwd = process.cwd()
-const cloudfunctionsDir = path.resolve(cwd, "cloudfunctions")
+const projectPath = path.resolve(__dirname, "..")
+const cloudfunctionsDir = path.resolve(projectPath, "cloudfunctions")
 
 if (!fs.existsSync(cloudfunctionsDir)) {
   fs.mkdirSync(cloudfunctionsDir)
@@ -22,7 +22,7 @@ if (!fs.existsSync(configFilePath)) {
 
 
 // 读取 package.json 文件
-fs.readFile('package.json', 'utf8', (err, data) => {
+fs.readFile(path.resolve(projectPath, 'package.json'), 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading package.json:', err);
     return;
