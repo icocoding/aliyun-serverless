@@ -2,3 +2,7 @@ node_modules/
 cloudfunctions/.deploy/
 package-lock.json
 .DS_Store
+cloudfunctions/test-api2/alicf.js
+cloudfunctions/test-api2/debug.js
+cloudfunctions/test-api2/index.js
+cloudfunctions/test-api2/package.json

@@ -16,6 +16,12 @@ const cloudConfig = {
   version: '1.0.0'
 }
 
+function readTpl(name) {
+  return fs.readFileSync(path.resolve(__dirname, './tpls', name), {
+    encoding: "utf8"
+  })
+}
+
 function _init() {
   if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir)
@@ -219,112 +225,24 @@ function createDefaultFiles(funcName) {
     return funcDir
   }
   fs.mkdirSync(funcDir)
-  const indexJs = 
-`'use strict';
-// require
-const alicf = require('./alicf')
-
-/* ------------------ 自定义函数 ------------------ */
-// functionA
-
-/* ------------------ 自定义函数 ------------------ */
-// 主函数
-const main = async (args, context) => {
-  alicf.log("输入参数", args)
-  const {db, file, cloudfunction, httpclient} = alicf.get()
-  return { code: 0, msg: 'success', data: alicf.getContext().args };
-}
-// 云函数入口函数
-module.exports = async (ctx) => {
-  alicf.bind(ctx)
-  const args = ctx.args;
-  return await main(args, ctx)
-}
-`
-    fs.writeFileSync(path.resolve(funcDir, 'index.js'), indexJs)
+  const indexJs = readTpl('index.js.tpl')
+  
+  fs.writeFileSync(path.resolve(funcDir, 'index.js'), indexJs)
     
-    const packageJson = 
-`
-{
-  "name": "${funcName}",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "debug": "node debug.js"
-  },
-  "author": "alicf@CoCoding",
-  "license": "ISC"
-}
-`
+const packageJson = readTpl('package.json.tpl')
 fs.writeFileSync(path.resolve(funcDir, 'package.json'), packageJson)
 
 // 添加alicf.js
-const alicfJs = 
-`
+const alicfJs = readTpl('alicf.js.tpl')
 
-const __alicf = {}
-
-
-__alicf.bind = (ctx) => {
-    __alicf.ctx = ctx
-}
-__alicf.getContext = () => {
-    if(!__alicf.ctx) {
-        throw Error('no bind ctx')
-    }
-    return __alicf.ctx
-}
-/**
- * 获取云操作
- * @returns > { db, file, cloudfunction, httpclient }
- */
-__alicf.get = () => {
-    // let db = ctx.mpserverless.db;
-    // let file = ctx.mpserverless.file;
-    const ctx = __alicf.getContext()
-    return {
-      ...ctx.mpserverless,
-      cloudfunction:ctx.mpserverless.function,
-      // urllib ctx.httpclient.request
-      httpclient: ctx.httpclient
-    }
-}
-
-__alicf.log = function() {
-    const {logger} = __alicf.getContext()
-    if (logger && logger.info) {
-        logger.info(...arguments)
-    } else {
-        console.log(...arguments)
-    }
-}
-
-module.exports = __alicf
-`
 fs.writeFileSync(path.resolve(funcDir, 'alicf.js'), alicfJs)
 
 
 // 添加debug.js
-const debugJs = 
-`
-const index = require('./index')
-const args = process.argv[2] || '{}'
-new Promise(async function(resolve, reject) {
-    const res = await index({
-        args: JSON.parse(args),
-        mpserverless: {
-            db: {},
-            file: {},
-            function: {}
-        }
-    }
-)
-console.log(res)
-})
-`
+const debugJs = readTpl('debug.js.tpl')
 fs.writeFileSync(path.resolve(funcDir, 'debug.js'), debugJs)
 }
+
 exports.create = async function (funcName, args) {
   console.log("create: " + funcName)
   // 添加目录

@@ -2,10 +2,14 @@
   "name": "aliserverless",
   "version": "1.0.0",
   "description": "",
-  "main": "cloudfunction.js",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "./tpls/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cf": "run-func ./cloudfunction.js"
+    "cf": "run-func ./index.js"
   },
   "author": "cocoding",
   "license": "ISC",
