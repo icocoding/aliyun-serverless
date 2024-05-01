@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path')
 
-// const projectPath = path.resolve(__dirname, "../..")
-const projectPath = process.cwd()
+const projectPath = path.resolve(process.cwd(), "../..")
+// const projectPath = process.cwd()
 const cloudfunctionsDir = path.resolve(projectPath, "cloudfunctions")
 
 if (!fs.existsSync(cloudfunctionsDir)) {
