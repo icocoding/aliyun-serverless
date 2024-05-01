@@ -6,6 +6,19 @@ const cloudfunctionsDir = path.resolve(cwd, "cloudfunctions")
 if (!fs.existsSync(cloudfunctionsDir)) {
   fs.mkdirSync(cloudfunctionsDir)
 }
+const configFilePath = path.resolve(cloudfunctionsDir, "config.json")
+
+if (!fs.existsSync(configFilePath)) {
+  console.log("create config.json")
+  fs.writeFileSync(configFilePath, JSON.stringify({
+    "accessKeyId": "Your Aliyun AccessKeyId",
+    "accessKeySecret": "Your Aliyun AccessKeySecret",
+    "spaceId": "Your Aliyun Serverless SpaceId",
+    "triggers": {
+    }
+}))
+}
+
 
 // 读取 package.json 文件
 fs.readFile('package.json', 'utf8', (err, data) => {
