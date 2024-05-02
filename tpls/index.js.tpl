@@ -1,6 +1,6 @@
 'use strict';
 // require
-const alicf = require('./alicf.js.tpl')
+const alicf = require('./alicf.js')
 
 /* ------------------ 自定义函数 ------------------ */
 // functionA
