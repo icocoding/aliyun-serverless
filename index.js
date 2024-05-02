@@ -230,7 +230,9 @@ function createDefaultFiles(funcName) {
   fs.writeFileSync(path.resolve(funcDir, 'index.js'), indexJs)
     
 const packageJson = readTpl('package.json.tpl')
-fs.writeFileSync(path.resolve(funcDir, 'package.json'), packageJson)
+const json = JSON.parse(packageJson)
+json.name = funcName.toLowerCase()
+fs.writeFileSync(path.resolve(funcDir, 'package.json'), JSON.stringify(json, null, 2))
 
 // 添加alicf.js
 const alicfJs = readTpl('alicf.js.tpl')
