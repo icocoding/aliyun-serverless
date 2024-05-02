@@ -231,11 +231,13 @@ function createDefaultFiles(funcName) {
   fs.writeFileSync(path.resolve(funcDir, 'index.js'), indexJs)
   
   // 添加package.json
-  const packageJson = readTpl('package.json.tpl')
-  const json = JSON.parse(packageJson)
+  let packageJson = readTpl('package.json.tpl')
+  // const json = JSON.parse(packageJson)
   // 设置项目名称
-  json.name = funcName.toLowerCase()
-  fs.writeFileSync(path.resolve(funcDir, 'package.json'), JSON.stringify(json, null, 2))
+  const _name = funcName.toLowerCase()
+  packageJson = packageJson.replace(/\$\{funcName\}/g, _name)
+  // json.name = funcName.toLowerCase()
+  fs.writeFileSync(path.resolve(funcDir, 'package.json'), packageJson)
 
   // 添加alicf.js
   const alicfJs = readTpl('alicf.js.tpl')
