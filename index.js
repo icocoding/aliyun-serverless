@@ -225,24 +225,25 @@ function createDefaultFiles(funcName) {
     return funcDir
   }
   fs.mkdirSync(funcDir)
+
+  // 添加index.js
   const indexJs = readTpl('index.js.tpl')
-  
   fs.writeFileSync(path.resolve(funcDir, 'index.js'), indexJs)
-    
-const packageJson = readTpl('package.json.tpl')
-const json = JSON.parse(packageJson)
-json.name = funcName.toLowerCase()
-fs.writeFileSync(path.resolve(funcDir, 'package.json'), JSON.stringify(json, null, 2))
+  
+  // 添加package.json
+  const packageJson = readTpl('package.json.tpl')
+  const json = JSON.parse(packageJson)
+  // 设置项目名称
+  json.name = funcName.toLowerCase()
+  fs.writeFileSync(path.resolve(funcDir, 'package.json'), JSON.stringify(json, null, 2))
 
-// 添加alicf.js
-const alicfJs = readTpl('alicf.js.tpl')
+  // 添加alicf.js
+  const alicfJs = readTpl('alicf.js.tpl')
+  fs.writeFileSync(path.resolve(funcDir, 'alicf.js'), alicfJs)
 
-fs.writeFileSync(path.resolve(funcDir, 'alicf.js'), alicfJs)
-
-
-// 添加debug.js
-const debugJs = readTpl('debug.js.tpl')
-fs.writeFileSync(path.resolve(funcDir, 'debug.js'), debugJs)
+  // 添加debug.js
+  const debugJs = readTpl('debug.js.tpl')
+  fs.writeFileSync(path.resolve(funcDir, 'debug.js'), debugJs)
 }
 
 exports.create = async function (funcName, args) {
