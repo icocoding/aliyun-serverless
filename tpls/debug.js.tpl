@@ -1,4 +1,6 @@
 const index = require('./index')
+const alicf = require('./alicf')
+alicf.debug = true
 const args = process.argv[2] || '{}'
 new Promise(function(resolve, reject) {
     index({

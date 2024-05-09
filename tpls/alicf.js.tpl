@@ -1,4 +1,6 @@
-const __alicf = {}
+const __alicf = {
+  debug: false
+}
 
 
 __alicf.bind = (ctx) => {
