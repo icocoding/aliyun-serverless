@@ -170,6 +170,13 @@ async function uploadFile(uploadSignedUrl, filePath) {
   }
 }
 
+exports.zip = async function (funcName) {
+  console.log("zip: " + funcName, cloudfunctionsDir)
+  // 压缩
+  const zipFilePath = await zipFunction(funcName)
+  console.log('zip file end', zipFilePath)
+}
+
 exports.deploy = async function (funcName) {
   console.log("deploy: " + funcName, cloudfunctionsDir)
   // 压缩
